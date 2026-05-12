@@ -112,6 +112,15 @@ body.light .header-wrap{background:rgba(245,245,247,0.72)}
 }
 .theme-toggle:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.03)}
 
+/* PDF Button */
+.pdf-btn{
+  background:var(--green-soft);border:0.5px solid rgba(48,209,88,0.3);border-radius:var(--radius-full);
+  padding:5px 12px;cursor:pointer;font-family:var(--font-mono);font-size:11px;color:var(--green);
+  transition:all 0.25s var(--ease);display:flex;align-items:center;gap:6px;backdrop-filter:blur(10px);
+  text-decoration:none
+}
+.pdf-btn:hover{border-color:var(--green);color:var(--green);transform:scale(1.03);box-shadow:0 0 12px var(--green-glow)}
+
 /* ===================== STATS ===================== */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:1.75rem 0;border-bottom:0.5px solid var(--border)}
 .stat{
@@ -279,7 +288,7 @@ body.light .tab:hover:not(.active){background:rgba(0,0,0,0.04)}
 .git-commit.cert .git-commit-dot{background:var(--purple);box-shadow:0 0 0 1.5px var(--purple-soft)}
 
 .git-commit-connector{
-  position:absolute;left:-20px;top:8px;width:24px;height:24px;
+  position:absolute;left:-20px;top:-12px;width:24px;height:20px;
   border-left:2px solid var(--border-prominent);border-bottom:2px solid var(--border-prominent);
   border-bottom-left-radius:8px;opacity:0.5
 }
@@ -471,7 +480,7 @@ body.light .tab:hover:not(.active){background:rgba(0,0,0,0.04)}
 @media print{
   .header-wrap{position:relative;background:#fff!important;border-bottom:1px solid #ddd}
   body{background:#fff!important;color:#000!important}
-  .chat-wrap,.tabs,.theme-toggle,.header-links a:not([href^="mailto"]),.suggestion,.chat-input-row{display:none!important}
+  .chat-wrap,.tabs,.theme-toggle,.header-links a:not([href^="mailto"]),.suggestion,.chat-input-row,.pdf-btn{display:none!important}
   .panel{display:block!important;page-break-inside:avoid;padding:1rem 0!important}
   .panel.active{display:block!important}
   .skills-grid{grid-template-columns:1fr 1fr!important}
@@ -527,6 +536,7 @@ body.light .tab:hover:not(.active){background:rgba(0,0,0,0.04)}
           <a class="header-link" href="https://www.linkedin.com/in/akber-hussain-47648b115/" target="_blank">linkedin ↗</a>
           <a class="header-link" href="mailto:akberhussain12345@gmail.com">email</a>
           <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀ light</button>
+          <button class="pdf-btn" onclick="window.print()">⬇ pdf</button>
         </div>
       </div>
     </div>
@@ -543,7 +553,7 @@ body.light .tab:hover:not(.active){background:rgba(0,0,0,0.04)}
   </div>
 
   <div class="tabs">
-    <div class="tab active" onclick="showTab('chat')">// ask akber's assistant</div>
+    <div class="tab active" onclick="showTab('chat')">// ask me anything</div>
     <div class="tab" onclick="showTab('projects')">projects</div>
     <div class="tab" onclick="showTab('skills')">skills</div>
     <div class="tab" onclick="showTab('timeline')">timeline</div>
@@ -558,22 +568,22 @@ body.light .tab:hover:not(.active){background:rgba(0,0,0,0.04)}
         <div class="chat-avatar">AH</div>
         <div>
           <div class="chat-hname">Akber's Assistant</div>
-          <div class="chat-hsub">AI-powered · Ask anything about Akber</div>
+          <div class="chat-hsub">AI-powered · Ask anything about him</div>
         </div>
       </div>
       <div class="chat-msgs" id="chatMsgs">
         <div class="msg bot">
           <div class="msg-av">AH</div>
-          <div class="msg-bubble">Hi there! I'm Akber's assistant. Ask me anything — his skills, experience, availability, past projects, work style, or whether he's the right fit for your job. I'll give you a straight answer.</div>
+          <div class="msg-bubble">Hey there! 👋 Ask me anything — his skills, projects, career, or whether he's the right fit for your team. I'll give you a straight answer.</div>
         </div>
       </div>
       <div class="chat-suggestions" id="suggestions">
-        <div class="suggestion" onclick="askQ('The job needs backend APIs with microservices. Can Akber do it?')">Microservices fit?</div>
-        <div class="suggestion" onclick="askQ('How good is Akber with databases?')">Database expertise?</div>
-        <div class="suggestion" onclick="askQ('Is Akber available for hire?')">Available for hire?</div>
-        <div class="suggestion" onclick="askQ('How does Akber use AI in his work?')">AI experience?</div>
+        <div class="suggestion" onclick="askQ('The job needs backend APIs with microservices. Can he do it?')">Microservices fit?</div>
+        <div class="suggestion" onclick="askQ('How good is he with databases?')">Database expertise?</div>
+        <div class="suggestion" onclick="askQ('Is he available for hire?')">Available for hire?</div>
+        <div class="suggestion" onclick="askQ('How does he use AI in his work?')">AI experience?</div>
         <div class="suggestion" onclick="askQ('Tell me about his freelance track record')">Freelance record?</div>
-        <div class="suggestion" onclick="askQ('What projects has Akber shipped?')">Project highlights?</div>
+        <div class="suggestion" onclick="askQ('What projects has he shipped?')">Project highlights?</div>
         <div class="suggestion" onclick="showSuggestions()" style="border-style:dashed;opacity:0.7">↻ refresh</div>
       </div>
       <div class="chat-input-row">
@@ -1099,127 +1109,166 @@ body.light .tab:hover:not(.active){background:rgba(0,0,0,0.04)}
 const API_KEY = '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';
 
 // ============================================================
-// ✏️ SYSTEM PROMPT — update if your details change
+// SYSTEM PROMPT — optimized for Groq/Llama with few-shot examples
+// Uses pronouns (he/his/him) instead of repeating "Akber"
 // ============================================================
-const SYSTEM_PROMPT = `You are a professional assistant on Hafiz Akber Hussain's interactive resume website. You speak ABOUT Akber in third person. Be concise (2-4 sentences), confident, and professional. Only answer questions about Akber. If unrelated, politely redirect.
+const SYSTEM_PROMPT = `You are a professional assistant on Hafiz Akber Hussain's interactive resume website.
 
-PERSONAL: Full name Hafiz Akber Hussain, goes by Akber. Based in Hyderabad, Pakistan. BSCS from Szabist University. Dedicated, always available, loves learning new tech.
+CRITICAL RULES — NEVER BREAK THESE:
+1. Speak ABOUT Akber in third person. Use "he/his/him" pronouns. Only say "Akber" once per response, ideally at the start or not at all.
+2. Be concise: exactly 2-4 sentences. No fluff.
+3. Be confident and direct. No "I think" or "maybe".
+4. Only answer questions about Akber. If unrelated, say: "I'm here to talk about Akber's work. Ask me about his skills, projects, or availability."
+5. Never say "I don't know" — use the facts below.
+6. For greetings (hi, hello, hey), be warm and conversational like a colleague, not robotic.
 
-CAREER:
-- Late 2017–Mid 2018: Full Stack MERN Developer at CIC HUB. Built patient-doctor health app, IIUI school website, taught MERN course.
-- May 2018–Aug 2019: SQA Engineer at Oxiliry (formerly BaseCamp Data Solutions). Promoted to dev for exceptional performance.
-- Aug 2019–March 2021: Database Developer at Oxiliry. Expert SQL Server stored procedures, SSRS, SSIS.
-- March 2021–Present: Sr. Full Stack Developer at Oxiliry. Leading FSM app (.NET Core microservices, MySQL, React, MUI). Team of 10.
-- Early 2022–2024: Freelancer.com — 14 projects, $32K+ earned, 5.0 rating, international clients.
+FACTS:
+- Full name Hafiz Akber Hussain, goes by Akber. Based in Hyderabad, Pakistan. BSCS from Szabist University.
+- Career: Sr. Full Stack at Oxiliry (2021–Present, team of 10, FSM app with .NET microservices + React + MySQL + MUI). Before that: Database Developer (2019–2021, SQL Server, SSRS, SSIS). Before that: SQA Engineer (2018–2019, promoted to dev). Early: MERN dev at CIC HUB (2017–2018, health app, school website, taught course).
+- Freelance: 14 projects, $32K+, 5.0 rating on Freelancer.com. Longest: MySQL consulting → 4-year full-stack engagement.
+- Projects: FSM Platform (~10K users, QuickBooks bulk import cutting setup ~90%). MAP Monitoring SaaS (brand protection, MAP violation tracking, React + Node.js + Next.js + MySQL).
+- Skills (expert): MySQL, SQL Server, Node.js, Express, REST APIs, React, JavaScript, HTML/CSS, Bash, Technical Writing, Excel.
+- Skills (comfortable+): MongoDB, .NET Microservices, MUI, PHP.
+- Skills (comfortable): SSRS, Next.js, SQA, Jira, Wrike.
+- Skills (exploring): SSIS, AI chatbot dev, AI automation, ML.
+- Certs: React — The Complete Guide 2024 (Udemy, Maximilian Schwarzmüller, 2024). Become an AI-Powered Engineer (micro1.ai, 2025).
+- AI tools: 1.5 years experience. Cursor 8 months, now Claude Code CLI daily. This resume built with AI assistance.
+- Rate: $2,000–$3,000/month, flexible. Contact: akberhussain12345@gmail.com | WhatsApp +92 300 308 3099.
+- References: Zohaib Akhund (Oxiliry), Hassan Laghari (PM at Oxiliry). 14 public reviews on Freelancer.com.
+- Work style: Requirements → Plan → Communicate → Deliver. Resolved a critical production bug overnight on unfamiliar codebase before client demo.
 
-PROJECTS:
-- FSM Field Service Platform: Enterprise platform for ~10K+ daily users. Led full-stack architecture with React + .NET microservices. Built bulk onboarding with QuickBooks integration, cutting setup time ~90%.
-- MAP Monitoring Software: e-Commerce SaaS for brand protection. MAP violation monitoring, review tracking, stock status, keyword rank. React + Node.js + Next.js + MySQL.
+EXAMPLE RESPONSES — MATCH THIS STYLE EXACTLY:
 
-SKILLS (expert): MySQL, SQL Server, Node.js, Express, REST APIs, React, JavaScript, HTML/CSS, Bash, Technical Writing, Excel, API Integration.
-SKILLS (comfortable-expert): MongoDB, .NET Microservices, MUI, PHP.
-SKILLS (comfortable): SSRS, Next.js, SQA, Jira, Wrike.
-SKILLS (beginner/growing): SSIS, AI chatbot dev, AI automation, ML.
+User: "Hi"
+Assistant: "Hey there! 👋 Ask me anything about his skills, projects, or whether he's a fit for your team."
 
-CERTIFICATIONS:
-- React — The Complete Guide 2024 (Udemy, Maximilian Schwarzmüller, 2024)
-- Become an AI-Powered Engineer: ChatGPT, GitHub Copilot (micro1.ai, 2025)
+User: "Is he good at React?"
+Assistant: "He's an expert with 4+ years of production experience. He built the entire FSM app at Oxiliry using React with complex state management and custom hooks. He's also Udemy-certified in React."
 
-AI: Uses AI tools 1.5 years. Used Cursor 8 months, now Claude Code CLI. Plans step-by-step, thorough testing. This resume chatbot itself was built with AI.
+User: "What about databases?"
+Assistant: "He's an expert in MySQL and SQL Server with 8+ years of production work. His freelance MySQL consulting grew into a 4-year full-stack engagement. He also works comfortably with MongoDB."
 
-FREELANCE: Profile at freelancer.com/u/laghariakber. Longest project: MySQL consulting grew into 4-year full-stack engagement. First project: real estate offer database became full web app.
+User: "Is he available?"
+Assistant: "He's open to full-time, part-time, or project-based work. His rate is $2,000–$3,000 per month, flexible based on scope. Reach him at akberhussain12345@gmail.com."
 
-WORK STYLE: Requirements → Plan → Communicate → Deliver. Solo and team experience. Adapts to client timezones. Once resolved a critical production bug overnight on an unfamiliar codebase before a client's next-day demo.
+User: "What projects has he shipped?"
+Assistant: "His two main projects are the FSM Platform (enterprise field service management for ~10K users with QuickBooks bulk import) and MAP Monitoring SaaS (e-commerce brand protection with automated MAP violation tracking). Both built at Oxiliry."
 
-AVAILABILITY: Open to full-time, part-time, or project-based. Rate $2,000–$3,000/month (flexible). Contact: akberhussain12345@gmail.com | WhatsApp: +92 300 308 3099.
+User: "Tell me about his AI experience"
+Assistant: "He's been using AI tools for 1.5 years — Cursor for 8 months, now Claude Code CLI daily. He approaches AI-assisted development with step-by-step planning and thorough testing. This resume chatbot itself was built with AI assistance."
 
-REFERENCES: Zohaib Akhund (linkedin.com/in/zohaib-akhund), Hassan Laghari PM (linkedin.com/in/hassan-laghari786-pm). 14 public reviews on Freelancer.com.
+User: "How much does he charge?"
+Assistant: "His monthly rate is $2,000–$3,000, flexible based on scope and engagement type. For project-based work, he's happy to discuss specific requirements and adjust accordingly."
 
-RULES: Always third person. Confident but accurate. 2-4 sentences max. Mention rate is flexible when asked about cost. For job-fit questions, assess honestly.`;
+User: "random question about weather"
+Assistant: "I'm here to talk about Akber's work. Ask me about his skills, projects, career history, or availability."`;
 
 // ============================================================
-// LOCAL AI FALLBACK — works without API key
+// LOCAL AI FALLBACK — works without API key, conversational tone
 // ============================================================
 function getLocalResponse(msg) {
-  const m = msg.toLowerCase();
+  const m = msg.toLowerCase().trim();
 
-  if (m.match(/\b(hi|hello|hey|howdy|greetings)\b/)) {
-    return "Hi there! I'm Akber's assistant. Ask me anything about his skills, experience, availability, or past projects. I work instantly — no API key needed.";
+  // Greetings — warm and conversational
+  if (m.match(/^(hi|hello|hey|howdy|greetings|yo|sup|hiya)[!?.]*$/)) {
+    const greetings = [
+      "Hey there! 👋 Ask me anything about his skills, projects, or whether he's a fit for your team.",
+      "Hello! What would you like to know — his tech stack, past projects, or availability?",
+      "Hi! I'm here to help. Fire away with any questions about his work.",
+      "Hey! Ready to talk shop. Ask about his experience with React, databases, or microservices."
+    ];
+    return greetings[Math.floor(Math.random() * greetings.length)];
+  }
+
+  if (m.match(/\b(how are you|how\'s it going|what\'s up|how do you do)\b/)) {
+    return "I'm doing great, thanks for asking! Ready to tell you all about his work. What would you like to know?";
+  }
+
+  if (m.match(/\b(thank|thanks|appreciate|grateful)\b/)) {
+    return "You're welcome! Let me know if you need anything else about his background or want to get in touch.";
+  }
+
+  if (m.match(/\b(bye|goodbye|see you|later|catch you)\b/)) {
+    return "Take care! Feel free to reach out via email if you want to connect with him directly.";
   }
 
   if (m.match(/\b(mysql|sql server|database|db|query|schema|stored procedure|trigger|index|sql)\b/)) {
-    if (m.includes('mysql')) return "Akber is an **expert** in MySQL. 8+ years production experience including complex query optimization, schema design for the FSM app, and indexing strategies. His freelance MySQL consulting grew into a 4-year full-stack engagement.";
-    if (m.includes('sql server')) return "Akber is an **expert** in SQL Server. As a Database Developer at Oxiliry, he built complex stored procedures, triggers, and views. Deep T-SQL optimization and reporting integration experience.";
-    return "Akber's database expertise: MySQL, SQL Server (expert), MongoDB (comfortable+), SSRS (comfortable), SSIS (beginner). Click any skill in the Skills tab to see detailed validation.";
+    if (m.includes('mysql')) return "He's an **expert** in MySQL with 8+ years of production experience. His freelance MySQL consulting actually grew into a 4-year full-stack engagement — that speaks for itself.";
+    if (m.includes('sql server')) return "He's an **expert** in SQL Server. As a Database Developer at Oxiliry, he built complex stored procedures, triggers, and views with deep T-SQL optimization.";
+    return "His database game is strong: MySQL and SQL Server (expert), MongoDB (comfortable+), SSRS (comfortable). Click any skill in the Skills tab to see the full breakdown.";
   }
 
   if (m.match(/\b(node|nodejs|express|backend|api|rest|microservice|\.net|php|server)\b/)) {
-    if (m.includes('node')) return "Akber is an **expert** in Node.js with 8+ years building production backends, REST APIs, and real-time services.";
-    if (m.includes('express')) return "Akber is an **expert** in Express. Middleware architecture, routing, authentication, and API design are his daily work.";
-    if (m.includes('microservice')) return "Akber is **comfortable** with .NET Core microservices. He leads the FSM app architecture with service-to-service communication and Docker deployment.";
-    if (m.includes('php')) return "Akber is **comfortable** with PHP. Full-stack web development including server-side rendering and database integration.";
-    return "Akber's backend expertise: Node.js, Express, REST APIs (expert); .NET Microservices, PHP (comfortable).";
+    if (m.includes('node')) return "He's an **expert** in Node.js with 8+ years building production backends, REST APIs, and real-time services. It's his daily bread and butter.";
+    if (m.includes('express')) return "He's an **expert** in Express. Middleware architecture, routing, auth strategies, and API design are what he does every day.";
+    if (m.includes('microservice')) return "He's **comfortable** with .NET Core microservices. He leads the FSM app architecture with service-to-service communication and Docker deployment.";
+    if (m.includes('php')) return "He's **comfortable** with PHP. Full-stack web dev including server-side rendering and database integration.";
+    return "Backend-wise, he's expert-level in Node.js, Express, and REST APIs. He's also comfortable with .NET Microservices and PHP.";
   }
 
   if (m.match(/\b(react|frontend|javascript|js|html|css|next|mui|material|ui|web)\b/)) {
-    if (m.includes('react')) return "Akber is an **expert** in React. 4+ years production experience including the large-scale FSM app at Oxiliry with complex state management and component architecture.";
-    if (m.includes('javascript') || m.includes(' js')) return "Akber is an **expert** in JavaScript. Deep understanding of ES6+, async/await, closures, and the event loop.";
-    if (m.includes('html') || m.includes('css')) return "Akber is an **expert** in HTML/CSS. Pixel-perfect implementation, responsive design, CSS Grid, Flexbox, and animations.";
-    if (m.includes('next')) return "Akber is **comfortable** with Next.js and growing. Experience with SSR, static generation, and API routes.";
-    if (m.includes('mui')) return "Akber is **comfortable** with MUI. He built the entire FSM app interface using Material-UI with custom theme overrides.";
-    return "Akber's frontend expertise: React, JavaScript, HTML/CSS (expert); Next.js, MUI (comfortable).";
+    if (m.includes('react')) return "He's an **expert** in React with 4+ years of production experience. He built the entire FSM app at Oxiliry — complex state management, custom hooks, the works. Plus he's Udemy-certified.";
+    if (m.includes('javascript') || m.includes(' js')) return "He's an **expert** in JavaScript. Deep understanding of ES6+, async/await, closures, and the event loop. 8+ years of daily practice.";
+    if (m.includes('html') || m.includes('css')) return "He's an **expert** in HTML/CSS. Pixel-perfect implementation, responsive design, CSS Grid, Flexbox, and animations. This resume is proof of that.";
+    if (m.includes('next')) return "He's **comfortable** with Next.js and growing. Experience with SSR, static generation, and API routes.";
+    if (m.includes('mui')) return "He's **comfortable** with MUI. He built the entire FSM app interface using Material-UI with custom theme overrides.";
+    return "Frontend expertise: React, JavaScript, HTML/CSS (expert); Next.js and MUI (comfortable).";
   }
 
   if (m.match(/\b(bash|cursor|claude|technical writing|excel|sqa|test|automation|devops)\b/)) {
-    if (m.includes('bash')) return "Akber is an **expert** in Bash scripting. Automation, server management, deployment pipelines, and log processing.";
-    if (m.includes('cursor') || m.includes('claude')) return "Akber is an **expert** with AI coding tools. 8+ months with Cursor, now daily Claude Code CLI user. This resume was built with AI assistance.";
-    if (m.includes('writing')) return "Akber is an **expert** in technical writing. UML diagrams, API docs, client reports. Earned a 5.0 rating on a technical writing project.";
-    if (m.includes('excel')) return "Akber is an **expert** in Excel. Complex formulas, pivot tables, VBA macros, and reporting dashboards.";
-    if (m.includes('sqa') || m.includes('test')) return "Akber is **comfortable** with SQA/Testing. Previous SQA Engineer role with structured test cases and automation.";
-    return "Akber's tools expertise: Bash, Cursor/Claude Code, Technical Writing, Excel (expert); SQA (comfortable).";
+    if (m.includes('bash')) return "He's an **expert** in Bash scripting. Automation, server management, deployment pipelines, and log processing — daily tools for him.";
+    if (m.includes('cursor') || m.includes('claude')) return "He's an **expert** with AI coding tools. 8+ months with Cursor, now daily Claude Code CLI user. This resume was literally built with AI assistance.";
+    if (m.includes('writing')) return "He's an **expert** in technical writing. UML diagrams, API docs, client reports. Earned a 5.0 rating on a technical writing project on Freelancer.com.";
+    if (m.includes('excel')) return "He's an **expert** in Excel. Complex formulas, pivot tables, VBA macros, and reporting dashboards.";
+    if (m.includes('sqa') || m.includes('test')) return "He's **comfortable** with SQA/Testing. His previous SQA Engineer role at Oxiliry involved structured test cases and automation — and earned him a promotion to development.";
+    return "Tools expertise: Bash, Cursor/Claude Code, Technical Writing, Excel (expert); SQA (comfortable).";
   }
 
-  if (m.match(/\b(ai|artificial|chatbot|ml|machine learning|prompt|llm|gpt|openai)\b/)) {
-    return "Akber has been using AI tools for 1.5 years. He used Cursor for 8 months and now uses Claude Code CLI daily. He approaches AI-assisted development with step-by-step planning and thorough testing. This resume chatbot itself was built with AI assistance. He's currently growing in AI Chatbot Dev, AI Automation, and Machine Learning.";
+  if (m.match(/\b(ai|artificial|chatbot|ml|machine learning|prompt|llm|gpt|openai|copilot)\b/)) {
+    return "He's been using AI tools for 1.5 years. Cursor for 8 months, now Claude Code CLI daily. He approaches AI-assisted development with step-by-step planning and thorough testing. This resume chatbot itself was built with AI assistance. He's also certified as an AI-Powered Engineer (micro1.ai, 2025).";
   }
 
   if (m.match(/\b(available|hire|rate|cost|price|salary|full-time|part-time|remote|budget)\b/)) {
-    return "Akber is open to full-time, part-time, or project-based work. His monthly rate is **$2,000–$3,000** (flexible based on scope). Contact: akberhussain12345@gmail.com or WhatsApp +92 300 308 3099.";
+    return "He's open to full-time, part-time, or project-based work. His monthly rate is **$2,000–$3,000** (flexible based on scope). Reach him at akberhussain12345@gmail.com or WhatsApp +92 300 308 3099.";
   }
 
   if (m.match(/\b(freelance|freelancer|review|rating|client|project|earned|32k|side|part time)\b/)) {
-    return "Akber has completed **14 projects** on Freelancer.com with a **5.0 average rating** and **$32K+ earned**. He takes on select freelance engagements alongside his primary role. His longest project: MySQL consulting that grew into a 4-year full-stack engagement.";
+    return "He's completed **14 projects** on Freelancer.com with a **5.0 average rating** and **$32K+ earned**. He takes on select freelance engagements alongside his primary role. His longest project: MySQL consulting that grew into a 4-year full-stack partnership.";
   }
 
   if (m.match(/\b(experience|career|work|job|oxiliry|company|role|title|history|background)\b/)) {
-    return "Akber's career: **Sr. Full Stack Developer** at Oxiliry (2021–Present) leading FSM app development. Previously Database Developer (2019–2021) and SQA Engineer (2018–2019) at Oxiliry. Early career as MERN developer at CIC HUB. BSCS from Szabist University.";
+    return "His career path: **Sr. Full Stack Developer** at Oxiliry (2021–Present) leading FSM app development. Before that: Database Developer (2019–2021) and SQA Engineer (2018–2019), both at Oxiliry. Early career as MERN developer at CIC HUB. BSCS from Szabist University.";
   }
 
-  if (m.match(/\b(project|portfolio|fsm|map|monitoring|quickbooks|bulk|app|product|ship|build)\b/)) {
-    return "Akber's key projects: **FSM Field Service Platform** — enterprise app for ~10K+ users with React + .NET microservices, featuring QuickBooks bulk import that cut setup time ~90%. **MAP Monitoring Software** — e-Commerce SaaS for brand protection with React + Node.js + Next.js. Both built at Oxiliry.";
+  if (m.match(/\b(project|portfolio|fsm|map|monitoring|quickbooks|bulk|app|product|ship|build|saas)\b/)) {
+    return "His two main projects are the **FSM Platform** — enterprise field service management for ~10K users with QuickBooks bulk import cutting setup time ~90% (React + .NET microservices) — and **MAP Monitoring SaaS** — e-commerce brand protection with automated MAP violation tracking (React + Node.js + Next.js + MySQL). Both built at Oxiliry.";
   }
 
-  if (m.match(/\b(cert|certification|udemy|course|react course|ai course|micro1|maximilian)\b/)) {
-    return "Akber's certifications: **React — The Complete Guide 2024** (Udemy, Maximilian Schwarzmüller, 2024) and **Become an AI-Powered Engineer** (micro1.ai, 2025). Both applied directly to his production work.";
+  if (m.match(/\b(cert|certification|udemy|course|react course|ai course|micro1|maximilian|badge)\b/)) {
+    return "His certifications: **React — The Complete Guide 2024** (Udemy, Maximilian Schwarzmüller, 2024) and **Become an AI-Powered Engineer** (micro1.ai, 2025). Both applied directly to his production work at Oxiliry.";
   }
 
-  if (m.match(/\b(fit|right|match|style|team|solo|timezone|communicat|bug|demo|culture|work ethic)\b/)) {
-    return "Akber follows: Requirements → Plan → Communicate → Deliver. He works well solo or in teams (currently leads a team of 10). He adapts to client timezones and once resolved a critical production bug overnight on an unfamiliar codebase before a client's next-day demo.";
+  if (m.match(/\b(fit|right|match|style|team|solo|timezone|communicat|bug|demo|culture|work ethic|attitude)\b/)) {
+    return "His workflow: Requirements → Plan → Communicate → Deliver. He works well solo or in teams (currently leads a team of 10). He adapts to client timezones and once resolved a critical production bug overnight on an unfamiliar codebase before a client's next-day demo.";
   }
 
-  if (m.match(/\b(contact|email|whatsapp|phone|reach|message|linkedin)\b/)) {
-    return "You can reach Akber at: Email: akberhussain12345@gmail.com | WhatsApp: +92 300 308 3099 | LinkedIn: akber-hussain | Freelancer: laghariakber";
+  if (m.match(/\b(contact|email|whatsapp|phone|reach|message|linkedin|github)\b/)) {
+    return "You can reach him at: Email: akberhussain12345@gmail.com | WhatsApp: +92 300 308 3099 | LinkedIn: akber-hussain | GitHub: akberhussain | Freelancer: laghariakber";
   }
 
-  if (m.match(/\b(reference|ref|zohaib|hassan|recommendation)\b/)) {
-    return "Akber's references: Zohaib Akhund (Oxiliry) and Hassan Laghari (Project Manager at Oxiliry). Both available on LinkedIn. Plus 14 public reviews on Freelancer.com.";
+  if (m.match(/\b(reference|ref|zohaib|hassan|recommendation|endorse)\b/)) {
+    return "His references: Zohaib Akhund (Oxiliry) and Hassan Laghari (Project Manager at Oxiliry). Both available on LinkedIn. Plus 14 public reviews on Freelancer.com.";
   }
 
-  if (m.match(/\b(skill|tech|stack|technology|know|proficient|good at|capable|validate)\b/)) {
-    return "Akber's core expertise spans Databases (MySQL, SQL Server expert), Backend (Node.js, Express, REST APIs expert), Frontend (React, JavaScript, HTML/CSS expert), and Tools (Bash, Cursor/Claude Code, Technical Writing, Excel expert). Click any skill in the Skills tab to see detailed validation for each rating.";
+  if (m.match(/\b(skill|tech|stack|technology|know|proficient|good at|capable|validate|expertise)\b/)) {
+    return "His core expertise spans Databases (MySQL, SQL Server expert), Backend (Node.js, Express, REST APIs expert), Frontend (React, JavaScript, HTML/CSS expert), and Tools (Bash, Cursor/Claude Code, Technical Writing, Excel expert). Click any skill in the Skills tab to see detailed validation for each rating.";
   }
 
-  return "I can tell you about Akber's **skills** (click any skill to see validation), **projects** (FSM & MAP Monitoring), **career timeline**, **freelance track record**, **certifications**, **availability/rate**, or **work style**. What would you like to know?";
+  if (m.match(/\b(who|what|about|introduce|tell me about him|who is)\b/)) {
+    return "He's a Sr. Full Stack Developer based in Hyderabad, Pakistan, with 8+ years of experience. He leads development at Oxiliry on a large-scale FSM platform and has a strong freelance track record (14 projects, 5.0 rating). Expert in React, Node.js, MySQL, and .NET microservices.";
+  }
+
+  return "I can tell you about his **skills** (click any skill to see validation), **projects** (FSM & MAP Monitoring), **career timeline**, **certifications**, **freelance track record**, **availability/rate**, or **work style**. What would you like to know?";
 }
 
 // ============================================================
@@ -1304,10 +1353,12 @@ function showTyping() {
 function removeTyping() { const t = document.getElementById('typing-ind'); if(t) t.remove(); }
 
 async function callAI(userMsg) {
+  // If API key is placeholder or missing, use local intelligence
   if (!API_KEY || API_KEY.includes('YOUR_GROQ') || API_KEY.length < 20) {
-    await new Promise(r => setTimeout(r, 700));
+    await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
     return getLocalResponse(userMsg);
   }
+
   history.push({ role: 'user', content: userMsg });
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -1318,17 +1369,27 @@ async function callAI(userMsg) {
       },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history],
-        temperature: 0.7,
-        max_tokens: 400
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: 'Hi' },
+          { role: 'assistant', content: "Hey there! 👋 Ask me anything about his skills, projects, or whether he's a fit for your team." },
+          { role: 'user', content: 'What is his database expertise?' },
+          { role: 'assistant', content: "He's an expert in MySQL and SQL Server with 8+ years of production experience. His freelance MySQL consulting grew into a 4-year full-stack engagement. He also works comfortably with MongoDB and SSRS." },
+          { role: 'user', content: 'Is he available for hire?' },
+          { role: 'assistant', content: "He's open to full-time, part-time, or project-based work. His rate is $2,000–$3,000 per month, flexible based on scope. Reach him at akberhussain12345@gmail.com." },
+          ...history
+        ],
+        temperature: 0.6,
+        max_tokens: 300
       })
     });
-    if (!res.ok) throw new Error(res.status);
+    if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
     const data = await res.json();
     const reply = data.choices[0].message.content;
     history.push({ role: 'assistant', content: reply });
     return reply;
   } catch (e) {
+    console.log('Groq error:', e.message);
     return getLocalResponse(userMsg);
   }
 }
