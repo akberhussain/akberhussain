@@ -3,37 +3,38 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Akber Hussain — Sr. Full Stack Developer</title>
+<title>Akber Hussain</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap');
 
 *{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#000000;
-  --bg-secondary:rgba(28,28,30,0.55);
-  --bg-tertiary:rgba(44,44,46,0.5);
-  --surface:rgba(28,28,30,0.4);
-  --border:rgba(255,255,255,0.07);
-  --border-prominent:rgba(255,255,255,0.12);
-  --text:#ffffff;
-  --text-secondary:rgba(255,255,255,0.55);
-  --text-tertiary:rgba(255,255,255,0.35);
-  --accent:#0a84ff;
-  --accent-secondary:#64d2ff;
-  --accent-glow:rgba(10,132,255,0.25);
-  --green:#30d158;
-  --green-soft:rgba(48,209,88,0.12);
-  --green-glow:rgba(48,209,88,0.25);
-  --amber:#ff9f0a;
-  --amber-soft:rgba(255,159,10,0.08);
-  --red:#ff453a;
-  --purple:#bf5af2;
-  --purple-soft:rgba(191,90,242,0.12);
+  /* ✏️ DARK THEME — richer blue-midnight palette, high contrast */
+  --bg:#060b14;
+  --bg-secondary:rgba(14,22,45,0.9);
+  --bg-tertiary:rgba(20,32,60,0.75);
+  --surface:rgba(16,26,52,0.65);
+  --border:rgba(80,130,255,0.12);
+  --border-prominent:rgba(80,130,255,0.22);
+  --text:#dde8ff;
+  --text-secondary:rgba(170,195,255,0.78);
+  --text-tertiary:rgba(130,160,230,0.5);
+  --accent:#5b9cf6;
+  --accent-secondary:#93c5fd;
+  --accent-glow:rgba(91,156,246,0.3);
+  --green:#34d399;
+  --green-soft:rgba(52,211,153,0.13);
+  --green-glow:rgba(52,211,153,0.28);
+  --amber:#fbbf24;
+  --amber-soft:rgba(251,191,36,0.1);
+  --red:#f87171;
+  --purple:#c084fc;
+  --purple-soft:rgba(192,132,252,0.13);
 
-  --font-ui:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Outfit','Segoe UI',sans-serif;
-  --font-display:'DM Serif Display','SF Pro Display',Georgia,serif;
-  --font-mono:'SF Mono','DM Mono','SFMono-Regular',monospace;
+  --font-ui:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-mono:'DM Mono','SF Mono','SFMono-Regular',monospace;
 
   --radius-sm:8px;
   --radius-md:12px;
@@ -50,45 +51,61 @@
 }
 
 body.light{
-  --bg:#f5f5f7;
-  --bg-secondary:rgba(255,255,255,0.72);
-  --bg-tertiary:rgba(255,255,255,0.9);
-  --surface:rgba(255,255,255,0.6);
-  --border:rgba(0,0,0,0.05);
-  --border-prominent:rgba(0,0,0,0.09);
-  --text:#1d1d1f;
-  --text-secondary:rgba(0,0,0,0.5);
-  --text-tertiary:rgba(0,0,0,0.3);
-  --accent:#0071e3;
-  --accent-secondary:#5ac8fa;
-  --accent-glow:rgba(0,113,227,0.18);
-  --green:#34c759;
-  --green-soft:rgba(52,199,89,0.1);
-  --green-glow:rgba(52,199,89,0.18);
-  --amber:#ff9500;
-  --amber-soft:rgba(255,149,0,0.08);
-  --red:#ff3b30;
-  --purple:#af52de;
-  --purple-soft:rgba(175,82,222,0.1);
+  --bg:#f0f5ff;
+  --bg-secondary:rgba(255,255,255,0.9);
+  --bg-tertiary:rgba(255,255,255,0.98);
+  --surface:rgba(255,255,255,0.75);
+  --border:rgba(79,142,247,0.13);
+  --border-prominent:rgba(79,142,247,0.24);
+  --text:#0c1a3d;
+  --text-secondary:rgba(20,50,110,0.7);
+  --text-tertiary:rgba(20,50,110,0.4);
+  --accent:#2563eb;
+  --accent-secondary:#3b82f6;
+  --accent-glow:rgba(37,99,235,0.18);
+  --green:#059669;
+  --green-soft:rgba(5,150,105,0.1);
+  --green-glow:rgba(5,150,105,0.2);
+  --amber:#b45309;
+  --amber-soft:rgba(180,83,9,0.08);
+  --red:#dc2626;
+  --purple:#7c3aed;
+  --purple-soft:rgba(124,58,237,0.1);
 }
 
-html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font-ui);transition:background 0.35s var(--ease),color 0.35s var(--ease);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+/* =================== ANIMATED BACKGROUND =================== */
+#bg-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+  transition:opacity 0.5s;
+}
+body.light #bg-canvas{opacity:0.25}
 
-.outer{width:100%;background:var(--bg);transition:background 0.35s var(--ease);padding-bottom:2rem}
-.inner{max-width:1020px;margin:0 auto;padding:0 2rem}
+html,body{
+  min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:var(--font-ui);
+  transition:background 0.35s var(--ease),color 0.35s var(--ease);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+.outer{position:relative;z-index:1;width:100%;padding-bottom:2rem;}
+/* ✏️ MAX WIDTH — 1400px uses full screen on wide monitors */
+.inner{max-width:1400px;margin:0 auto;padding:0 3rem}
+@media(max-width:1200px){.inner{padding:0 2rem}}
 
 /* ===================== STICKY GLASS HEADER ===================== */
 .header-wrap{
   position:sticky;
   top:0;
   z-index:100;
-  backdrop-filter:blur(20px) saturate(180%);
-  -webkit-backdrop-filter:blur(20px) saturate(180%);
-  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  background:rgba(6,11,20,0.8);
   border-bottom:0.5px solid var(--border);
   transition:background 0.35s var(--ease),border-color 0.35s var(--ease);
 }
-body.light .header-wrap{background:rgba(245,245,247,0.72)}
+body.light .header-wrap{background:rgba(240,245,255,0.85)}
 
 .header{padding:2rem 0 1.25rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
 .header-tag{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.6rem;font-weight:500}
@@ -517,6 +534,7 @@ body.light .tab:hover:not(.active){background:rgba(0,0,0,0.04)}
 </style>
 </head>
 <body>
+<canvas id="bg-canvas"></canvas>
 <div class="outer">
 
 <!-- ===================== STICKY GLASS HEADER ===================== -->
@@ -1270,6 +1288,124 @@ function getLocalResponse(msg) {
 
   return "I can tell you about his **skills** (click any skill to see validation), **projects** (FSM & MAP Monitoring), **career timeline**, **certifications**, **freelance track record**, **availability/rate**, or **work style**. What would you like to know?";
 }
+
+// ============================================================
+// ANIMATED BACKGROUND — flowing mesh of nodes and connections
+// ============================================================
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [], mouse = {x: -999, y: -999};
+  const NODE_COUNT = 55;
+  const CONNECT_DIST = 160;
+  const MOUSE_DIST = 200;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function randBetween(a, b) { return a + Math.random() * (b - a); }
+
+  function initNodes() {
+    nodes = [];
+    for (let i = 0; i < NODE_COUNT; i++) {
+      nodes.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: randBetween(-0.25, 0.25),
+        vy: randBetween(-0.25, 0.25),
+        r: randBetween(1.5, 3.5),
+        pulse: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function isLight() { return document.body.classList.contains('light'); }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    const light = isLight();
+    const nodeColor = light ? 'rgba(37,99,235,' : 'rgba(91,156,246,';
+    const lineColor = light ? 'rgba(37,99,235,' : 'rgba(80,130,255,';
+    const glowColor = light ? 'rgba(37,99,235,0.06)' : 'rgba(60,100,220,0.08)';
+
+    // Subtle radial gradient blobs in background
+    const blobs = [
+      {x: W * 0.15, y: H * 0.2, r: W * 0.35, c: light ? 'rgba(147,197,253,0.12)' : 'rgba(30,60,180,0.18)'},
+      {x: W * 0.8, y: H * 0.6, r: W * 0.3, c: light ? 'rgba(196,181,253,0.1)' : 'rgba(80,40,180,0.14)'},
+      {x: W * 0.5, y: H * 0.85, r: W * 0.25, c: light ? 'rgba(167,243,208,0.08)' : 'rgba(20,120,100,0.12)'},
+    ];
+    blobs.forEach(b => {
+      const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      g.addColorStop(0, b.c);
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Update and draw nodes
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
+      n.pulse += 0.018;
+      if (n.x < -10) n.x = W + 10;
+      if (n.x > W + 10) n.x = -10;
+      if (n.y < -10) n.y = H + 10;
+      if (n.y > H + 10) n.y = -10;
+
+      // Mouse repulsion
+      const dx = n.x - mouse.x;
+      const dy = n.y - mouse.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < MOUSE_DIST) {
+        const force = (MOUSE_DIST - dist) / MOUSE_DIST * 0.8;
+        n.x += dx / dist * force;
+        n.y += dy / dist * force;
+      }
+    });
+
+    // Draw connections
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < CONNECT_DIST) {
+          const alpha = (1 - d / CONNECT_DIST) * 0.4;
+          ctx.strokeStyle = lineColor + alpha + ')';
+          ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const pulse = 0.5 + Math.sin(n.pulse) * 0.5;
+      ctx.fillStyle = nodeColor + (0.35 + pulse * 0.35) + ')';
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r * (0.8 + pulse * 0.4), 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); });
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
+
+  resize();
+  initNodes();
+  draw();
+})();
 
 // ============================================================
 // APP LOGIC
